@@ -7,6 +7,7 @@
 
 (def template-path "templates/")
 
+;; OLD reagent-example code
 (deftype RenderableTemplate [template params]
   Renderable
   (render [this request]
@@ -22,3 +23,8 @@
 
 (defn render [template & [params]]
   (RenderableTemplate. template params))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+(defn render-file [template]
+  (parser/render-file (str template-path template) response))

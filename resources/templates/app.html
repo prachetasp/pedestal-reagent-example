@@ -20,13 +20,8 @@
         var context = "{{servlet-context}}";
     </script>
 
-    {% if dev %}
       <script src="{{servlet-context}}/js/goog/base.js" type="text/javascript"></script>
       <script src="{{servlet-context}}/js/app.js" type="text/javascript"></script>
       <script type="text/javascript">goog.require("main.core");</script>
-      {% else %}
-      <script src="{{servlet-context}}/js/app.js" type="text/javascript"></script>
-    {% endif %}
   </body>
 </html>
-

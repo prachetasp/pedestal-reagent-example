@@ -25,14 +25,14 @@
 
 (defn list-item [id k v selections]
   (letfn [(handle-click! []
-            (swap! selections update-in [k] not)                         
+            (swap! selections update-in [k] not)
             (set-value! id (->> @selections (filter second) (map first))))]
     [:li {:class (str "list-group-item" (if (k @selections) " active"))
           :on-click handle-click!}
       v]))
 
-(defn selection-list [id label & items]
-  (let [selections (->> items (map (fn [[k]] [k false])) (into {}) atom)]    
+(defn selection-list [id label items]
+  (let [selections (atom (into {} (map (fn [[k]] [k false]) items)))]
     (fn []
       [:div.row
        [:div.col-md-2 [:span label]]
@@ -42,7 +42,7 @@
           [list-item id k v selections])]]])))
 
 (defn save-doc []
-  (POST (str js/context "/save")
+  (POST (str js/context "/app")
         {:params (:doc @state)
          :handler (fn [_] (swap! state assoc :saved? true))}))
 
@@ -53,7 +53,7 @@
     [text-input :first-name "First name"]
     [text-input :last-name "Last name"]
     [selection-list :favorite-drinks "Favorite drinks"
-     [:coffee "Coffee"] [:beer "Beer"] [:crab-juice "Crab juice"]]
+     [[:coffee "Coffee"] [:beer "Beer"] [:crab-juice "Crab juice"] [:larceny "Larceny"]]]
 
    (if (:saved? @state)
      [:p "Saved"]
